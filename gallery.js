@@ -2,13 +2,15 @@
 
 import { default as images } from '../goit-js-hw-08-gallery/gallery-items.js';
 
-const gallery = {
+const refs = {
   listGallery: document.querySelector('.js-gallery'),
   lightbox: document.querySelector('.js-lightbox')
 };
 
+console.log(images.preview);
+
 const addImg = images.filter(({ preview, original, description }) => {
-  gallery.listGallery.insertAdjacentHTML(
+  refs.listGallery.insertAdjacentHTML(
     'afterbegin',
     `<li class="gallery__item">
     <a
@@ -30,17 +32,21 @@ const addImg = images.filter(({ preview, original, description }) => {
   );
 });
 
-gallery.listGallery.append(addImg);
+refs.listGallery.append(addImg);
 
 function handleClick(e) {
   e.preventDefault();
   console.log(e.target);
   console.log(e.currentTarget);
-  console.log(gallery.lightbox);
-  gallery.lightbox.classList.toggle('is-open');
+  console.dir(refs.lightbox);
+  refs.lightbox.classList.toggle('is-open');
+  const lightboxImage = document.querySelector('.lightbox__image');
+  const sourceImage = e.target.dataset.source;
+
+  lightboxImage.setAttribute('src', sourceImage);
 }
 
-gallery.listGallery.addEventListener('click', handleClick);
+refs.listGallery.addEventListener('click', handleClick);
 
 // function buildGalleryItem(item) {
 //   return `<li class="gallery__item">
