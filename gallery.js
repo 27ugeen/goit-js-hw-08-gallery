@@ -3,7 +3,8 @@
 import { default as images } from '../goit-js-hw-08-gallery/gallery-items.js';
 
 const gallery = {
-  listGallery: document.querySelector('.js-gallery')
+  listGallery: document.querySelector('.js-gallery'),
+  lightbox: document.querySelector('.js-lightbox')
 };
 
 const addImg = images.filter(({ preview, original, description }) => {
@@ -31,12 +32,15 @@ const addImg = images.filter(({ preview, original, description }) => {
 
 gallery.listGallery.append(addImg);
 
-// function handleClick(e) {
-//   e.preventDefault();
-//   console.log(e.target);
-// }
+function handleClick(e) {
+  e.preventDefault();
+  console.log(e.target);
+  console.log(e.currentTarget);
+  console.log(gallery.lightbox);
+  gallery.lightbox.classList.toggle('is-open');
+}
 
-// gallery.addEventListener('click', handleClick);
+gallery.listGallery.addEventListener('click', handleClick);
 
 // function buildGalleryItem(item) {
 //   return `<li class="gallery__item">
