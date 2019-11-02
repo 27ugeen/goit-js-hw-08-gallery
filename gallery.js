@@ -4,10 +4,12 @@ import { default as images } from '../goit-js-hw-08-gallery/gallery-items.js';
 
 const refs = {
   listGallery: document.querySelector('.js-gallery'),
-  lightbox: document.querySelector('.js-lightbox')
+  lightbox: document.querySelector('.js-lightbox'),
+  lightboxImage: document.querySelector('.lightbox__image'),
+  closeModalBtn: document.querySelector('button[data-action="close-lightbox"]')
 };
 
-console.log(images.preview);
+// console.log(images.forEach(e => console.log(e)));
 
 const addImg = images.filter(({ preview, original, description }) => {
   refs.listGallery.insertAdjacentHTML(
@@ -34,30 +36,34 @@ const addImg = images.filter(({ preview, original, description }) => {
 
 refs.listGallery.append(addImg);
 
+//=====================================================
 function handleClick(e) {
   e.preventDefault();
   if (e.target.nodeName !== 'IMG') {
     return;
   }
-  const img = e.target;
-  console.log(img.nodeName);
-  console.log(e.currentTarget);
-  refs.lightbox.classList.toggle('is-open');
-  const lightboxImage = document.querySelector('.lightbox__image');
-  const sourceImage = img.dataset.source;
-  const closeModalBtn = document.querySelector('.lightbox__button');
-  console.log(closeModalBtn);
-  console.dir(refs.lightbox);
+
+  refs.lightbox.classList.add('is-open');
+
+  const sourceImage = e.target.dataset.source;
+  refs.lightboxImage.setAttribute('src', sourceImage);
 
   function closeModal() {
     refs.lightbox.classList.remove('is-open');
-    lightboxImage.removeAttribute('src', sourceImage);
+    refs.lightboxImage.removeAttribute('src', sourceImage);
   }
 
-  refs.lightbox.addEventListener('click', closeModal);
-
-  closeModalBtn.addEventListener('click', closeModal);
-  lightboxImage.setAttribute('src', sourceImage);
+  function backgroundCloseModal({ target }) {
+    // console.log(target);
+    if (target.classList.contains('lightbox__content')) {
+      refs.lightbox.classList.remove('is-open');
+      refs.lightboxImage.removeAttribute('src', sourceImage);
+    }
+  }
+  refs.closeModalBtn.addEventListener('click', closeModal);
+  refs.lightbox.addEventListener('click', backgroundCloseModal);
 }
 
 refs.listGallery.addEventListener('click', handleClick);
+
+//====================================================
