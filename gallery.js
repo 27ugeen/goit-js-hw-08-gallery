@@ -36,34 +36,28 @@ refs.listGallery.append(addImg);
 
 function handleClick(e) {
   e.preventDefault();
-  console.log(e.target);
+  if (e.target.nodeName !== 'IMG') {
+    return;
+  }
+  const img = e.target;
+  console.log(img.nodeName);
   console.log(e.currentTarget);
-  console.dir(refs.lightbox);
   refs.lightbox.classList.toggle('is-open');
   const lightboxImage = document.querySelector('.lightbox__image');
-  const sourceImage = e.target.dataset.source;
+  const sourceImage = img.dataset.source;
+  const closeModalBtn = document.querySelector('.lightbox__button');
+  console.log(closeModalBtn);
+  console.dir(refs.lightbox);
 
+  function closeModal() {
+    refs.lightbox.classList.remove('is-open');
+    lightboxImage.removeAttribute('src', sourceImage);
+  }
+
+  refs.lightbox.addEventListener('click', closeModal);
+
+  closeModalBtn.addEventListener('click', closeModal);
   lightboxImage.setAttribute('src', sourceImage);
 }
 
 refs.listGallery.addEventListener('click', handleClick);
-
-// function buildGalleryItem(item) {
-//   return `<li class="gallery__item">
-//     <a
-//       class="gallery__link"
-//       href="${imgGallery.original}"
-//     >
-//       <img
-//         class="gallery__image"
-//         src="${imgGallery.preview}"
-//         data-source="${imgGallery.original}"
-//         alt="${imgGallery.description}"
-//       />
-
-//       <span class="gallery__icon">
-//         <i class="material-icons">zoom_out_map</i>
-//       </span>
-//     </a>
-//   </li>`;
-// }
